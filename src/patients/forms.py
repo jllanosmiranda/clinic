@@ -1,9 +1,9 @@
 from django.forms import ModelForm
 
-from src.patients.models import Patient
+from patients.models import History
 
 
 class PatientForm(ModelForm):
     class Meta:
-        model = Patient
+        model = History
         fields = '__all__'

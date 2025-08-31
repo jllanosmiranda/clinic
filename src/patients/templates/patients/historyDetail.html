@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block content %}
+    <p>
+        Numero: {{ object.id }}
+    </p>
+    <p>
+       Nombre: {{ object.name }}
+    </p>
+    <p>
+       Apellido: {{ object.lastname }}
+    </p>
+    <p>
+        Genero: {{ object.get_gender_display }}
+    </p>
+    <p>
+        Edad: {{ object.age }}
+    </p>
+    <p>
+        Direccion: {{ object.address }}
+    </p>
+    <p>
+        ocupacion: {{ object.ocupacion }}
+    </p>
+    <p>
+        numero: {{ object.phone }}
+    </p>
+    <p>
+    </p>
+    <div>
+        <p>
+            <a href="{% url 'history_list' %}">lista de pacientes</a>
+        </p>
+    </div>
+{% endblock %}
