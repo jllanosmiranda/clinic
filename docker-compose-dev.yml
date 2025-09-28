@@ -2,7 +2,7 @@ services:
   django:
     build: .
     ports:
-      - "8002:8000"
+      - "${APP_PORT}:8000"
     user: "root"
     environment:
       POSTGRES_DB: ${POSTGRES_DB}

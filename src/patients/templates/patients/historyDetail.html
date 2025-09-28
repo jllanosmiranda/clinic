@@ -1,34 +1,67 @@
 {% extends 'base.html' %}
 {% block content %}
-    <p>
-        Numero: {{ object.id }}
-    </p>
-    <p>
-       Nombre: {{ object.name }}
-    </p>
-    <p>
-       Apellido: {{ object.lastname }}
-    </p>
-    <p>
-        Genero: {{ object.get_gender_display }}
-    </p>
-    <p>
-        Edad: {{ object.age }}
-    </p>
-    <p>
-        Direccion: {{ object.address }}
-    </p>
-    <p>
-        ocupacion: {{ object.ocupacion }}
-    </p>
-    <p>
-        numero: {{ object.phone }}
-    </p>
-    <p>
-    </p>
-    <div>
-        <p>
-            <a href="{% url 'history_list' %}">lista de pacientes</a>
-        </p>
+    <div class="row mb-4">
+        <div class="col">
+            <h1 class="h3">Detalle de Paciente</h1>
+            <div class="card">
+                <div class="card-body">
+                    <div class="row g-3">
+                        <div class="col-sm-6 col-md-3"><strong>Número:</strong> {{ object.id }}</div>
+                        <div class="col-sm-6 col-md-3"><strong>Nombre:</strong> {{ object.name }}</div>
+                        <div class="col-sm-6 col-md-3"><strong>Apellido:</strong> {{ object.lastname }}</div>
+                        <div class="col-sm-6 col-md-3"><strong>Género:</strong> {{ object.get_gender_display }}</div>
+                        <div class="col-sm-6 col-md-4"><strong>Dirección:</strong> {{ object.address }}</div>
+                        <div class="col-sm-6 col-md-4"><strong>Ocupación:</strong> {{ object.occupation }}</div>
+                        <div class="col-sm-6 col-md-2"><strong>Teléfono:</strong> {{ object.phone }}</div>
+                        <div class="col-sm-6 col-md-2"><strong>Documento:</strong> {{ object.DocumentID }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center mb-2">
+        <h2 class="h5 m-0">Consultas</h2>
+        <a class="btn btn-success" href="{% url 'consultation_new' object.id %}">Nueva consulta</a>
+    </div>
+
+    <form method="get" class="row g-3 mb-3">
+        <div class="col-12 col-md-6">
+            {{ consultation_filter.form.as_p }}
+        </div>
+        <div class="col-12 col-md-6 d-flex align-items-end gap-2">
+            <button type="submit" class="btn btn-primary">Filtrar por fecha</button>
+            <a class="btn btn-outline-secondary" href="{% url 'history_detail' object.id %}">Limpiar</a>
+            <a class="btn btn-outline-dark ms-auto" href="{% url 'history_list' %}">Lista de pacientes</a>
+        </div>
+    </form>
+
+    <div class="table-responsive">
+        <table class="table table-bordered table-striped table-hover align-middle">
+            <thead class="table-light">
+            <tr>
+                <th>Fecha</th>
+                <th>Motivo principal</th>
+                <th>Diagnóstico</th>
+                <th>Detalles</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for c in consultations %}
+                <tr>
+                    <td>{{ c.date }}</td>
+                    <td>{{ c.chiefComplaint }}</td>
+                    <td>{{ c.diagnosis|truncatechars:50 }}</td>
+                    <td><a class="btn btn-sm btn-outline-primary" href="{% url 'consultation_detail' c.id %}">Ver</a></td>
+                </tr>
+            {% empty %}
+                <tr>
+                    <td colspan="4">
+                        <div class="alert alert-info m-0">No hay consultas.</div>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 {% endblock %}

@@ -1,9 +1,14 @@
 {% extends 'base.html' %}
 {% block content %}
-    <h1> Nuevo historial</h1>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-    <button type="submit">Guardar</button>
+    <h1 class="h3 mb-3">Nuevo Paciente</h1>
+    <form method="post" class="card">
+        <div class="card-body">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-primary">Guardar</button>
+                <a href="{% url 'history_list' %}" class="btn btn-outline-secondary">Cancelar</a>
+            </div>
+        </div>
     </form>
 {% endblock %}

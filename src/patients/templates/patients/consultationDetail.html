@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mb-4">
+        <h1 class="h3">Consulta del {{ consultation.date }}</h1>
+        <div class="card">
+            <div class="card-body">
+                <p class="mb-1"><strong>Paciente:</strong> {{ consultation.patient.name }} {{ consultation.patient.lastname }}</p>
+                <p class="mb-1"><strong>Motivo principal:</strong> {{ consultation.chiefComplaint }}</p>
+                <p class="mb-1"><strong>Síntomas:</strong> {{ consultation.symptoms }}</p>
+                <p class="mb-1"><strong>Diagnóstico:</strong> {{ consultation.diagnosis }}</p>
+                <p class="mb-0"><strong>Notas:</strong> {{ consultation.notes }}</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-4">
+        <h2 class="h5">Tratamientos</h2>
+        <ul class="list-group">
+            {% for t in treatments %}
+                <li class="list-group-item">{{ t.treatment }}</li>
+            {% empty %}
+                <li class="list-group-item">No hay tratamientos registrados.</li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="mb-4">
+        <h2 class="h5">Registros de Triaje</h2>
+        <div class="table-responsive">
+            <table class="table table-striped table-hover align-middle">
+                <thead class="table-light">
+                <tr>
+                    <th>Fecha</th>
+                    <th>FC</th>
+                    <th>PA (Sis/Dia)</th>
+                    <th>SatO2</th>
+                    <th>Temp</th>
+                    <th>FR</th>
+                    <th>Peso</th>
+                    <th>Talla</th>
+                    <th>Notas</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for tr in triages %}
+                    <tr>
+                        <td>{{ tr.created_at }}</td>
+                        <td>{{ tr.heartRate }}</td>
+                        <td>{{ tr.systolicPressure }}/{{ tr.diastolicPressure }}</td>
+                        <td>{{ tr.oxygenSaturation }}</td>
+                        <td>{{ tr.temperature }}</td>
+                        <td>{{ tr.respiratoryRate }}</td>
+                        <td>{{ tr.weight }}</td>
+                        <td>{{ tr.height }}</td>
+                        <td>{{ tr.Notes }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="9"><div class="alert alert-info m-0">No hay registros de triaje.</div></td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <p><a class="btn btn-outline-secondary" href="{% url 'history_detail' consultation.patient.id %}">Volver al paciente</a></p>
+{% endblock %}
